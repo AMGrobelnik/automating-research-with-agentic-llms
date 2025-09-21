@@ -1,0 +1,11 @@
+{
+  "examples": [
+    {
+      "input": "String: task prompt, question, or multi-turn conversation",
+      "context": "Object: any additional structured context relevant to the input",
+      "output": "String: expected agent response or action sequence",
+      "dataset": "String: source dataset name",
+      "split": "String: train/val/test"
+    }
+  ]
+}

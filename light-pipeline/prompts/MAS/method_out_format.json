@@ -1,0 +1,14 @@
+{
+  "examples": [
+    {
+      "input": "String: task prompt, question, or multi-turn conversation",
+      "output": "String: expected agent response or action sequence",
+      "context": "Object: any additional structured context relevant to the input",
+      "dataset": "String: source dataset name",
+      "split": "String: train/val/test",
+      "predict_baseline": "String: agent system's actual response using naive baseline method",
+      "predict_method": "String: agent system's actual response using the our proposed method",
+      "method": "String: agent architecture and prompting strategy used"
+    }
+  ]
+}

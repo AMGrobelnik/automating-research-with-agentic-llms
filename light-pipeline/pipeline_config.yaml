@@ -1,0 +1,79 @@
+# AI Scientist Lite - Pipeline Configuration
+
+# Pipeline Execution Settings
+pipeline:
+  # Specify the checkpoint file to start from (optional, empty means start from beginning)
+  # The pipeline will start from the module AFTER the checkpoint
+  # Examples:
+  #   IdeaGen_final_out.txt -> starts from idea_filter module
+  #   IdeaFilter_final_out.txt -> starts from data_exec module
+  #   data_out.json -> starts from method_exec module
+  #   method_out.json -> starts from eval_exec module
+  #   eval_out.json -> starts from result_present module
+  #   paper.pdf -> pipeline already complete
+  #   "" or missing file -> starts from idea_gen module
+  # start_checkpoint: "/mnt/c/Users/adria/Downloads/AIScientist-Lite/light-pipeline/runs/test/IdeaGen_final_out.txt"
+  # start_checkpoint: "/mnt/c/Users/adria/Downloads/AIScientist-Lite/light-pipeline/runs/test/IdeaFilter_final_out.txt"
+  # start_checkpoint: "/mnt/c/Users/adria/Downloads/AIScientist-Lite/light-pipeline/runs/20250918_012208/model_workspace/eval_out.json" # Skip all modules except ResultPresent
+  # start_checkpoint: "/path/to/workspace/method_out.json"  # Skip DataExec and MethodExec, start from EvalExec
+  start_checkpoint: ""
+
+  # Specify the idea checkpoint file when starting from data_out.json, method_out.json, or eval_out.json
+  # This provides the original idea text that was selected by the IdeaFilter module
+  # Only needed when start_checkpoint is after idea_filter
+  # idea_checkpoint: "/mnt/c/Users/adria/Downloads/AIScientist-Lite/light-pipeline/runs/test/IdeaFilter_final_out.txt"
+
+  # Specify the last module to run (optional, defaults to running to the end)
+  # Options: "idea_gen", "idea_filter", "data_exec", "method_exec", "eval_exec", "result_present"
+  # Example: end_module: "idea_filter" # Stop after running idea_filter
+  # Example: end_module: "data_exec" # Stop after running data_exec
+  # Example: end_module: "result_present" # Stop after generating the paper
+  end_module: "result_present"
+
+# Research Configuration
+research_area: "Multi LLM Agent Systems"
+# research_area: "News event classification with machine learning"
+
+# Domain Selection
+# This will copy all files with the domain prefix from prompts/ to the workspace
+# The prefix will be removed when copying (e.g., MAS_handbook.txt -> handbook.txt)
+domain: "MAS" # Multi-Agent Systems domain
+
+# Global Tool Usage Settings
+tool_usage:
+  show_all_tool_usage: true # Set to true for verbose tool usage output (applies to all modules)
+  truncate_logs: false # Set to false to show full untruncated tool inputs/outputs
+
+# Output Settings
+output:
+  directory: "runs" # Base directory for all outputs
+
+# OpenAI Settings
+openai_settings:
+  api_key: ""  # TODO: Set OPENAI_API_KEY environment variable instead
+  model: "gpt-5"
+  reasoning_effort: "high"
+  verbosity: "medium"
+  service_tier: "priority" # Can also be set to "default"
+
+# Claude SDK Settings
+claude_settings:
+  max_turns: 1000
+  permission_mode: "acceptEdits"
+  allowed_tools: [
+      "Read",
+      "Write",
+      "Bash",
+      "Edit",
+      "MultiEdit",
+      "WebSearch",
+      "WebFetch",
+      "Glob",
+      "Grep",
+      "LS",
+      "Task",
+      "TodoWrite"
+    ] # Full tool set for execution
+  max_thinking_tokens: 30000 # Moderate token limit for thinking
+  timeout_seconds: 2400 # Timeout for tool calls - restart session if no activity for this long
+  max_retries: 1000 # Maximum number of retries (3 retries = 4 total attempts including initial)

@@ -1,0 +1,210 @@
+CITE-AND-CHALLENGE PEER PROTOCOL FOR FACTUAL CLAIMS
+COMPLETE IMPLEMENTATION PLAN, TECHNICAL SPECIFICATIONS, AND UNIT TESTS
+
+==========================================================================================
+
+PROJECT OVERVIEW
+================
+
+Project Goal: Implement a structured adversarial review process for AI-generated factual claims using multiple answering agents and a specialized challenger agent to improve citation quality and reduce hallucinations.
+
+Implementation Strategy: 5-module architecture deployed in sequential order with comprehensive testing at each stage.
+
+==========================================================================================
+
+DETAILED MODULE SPECIFICATIONS
+==============================
+
+MODULE 1: DATASET AND INFRASTRUCTURE MODULE
+===========================================
+Priority: 1st (Foundation) | Dependencies: None
+
+Technical Components:
+- ClaimDataset: Manages 300 curated factual claims across 4 domains (75 claims each: science, health, history, finance)
+- DataStorage: SQLite/PostgreSQL backend for persistent storage of claims, responses, and evaluation results
+- ConfigManager: Centralized configuration management with validation for API keys and system parameters
+- DomainClassifier: Automated categorization of claims by domain with complexity scoring
+
+Architecture Structure:
+src/dataset/claim_dataset.py      # ClaimDataset class implementation
+src/dataset/domain_classifier.py  # DomainClassifier for automated categorization
+src/dataset/data_storage.py       # DataStorage with database integration
+src/config/config_manager.py      # ConfigManager with validation
+src/config/config.yaml            # System configuration file
+src/utils/validators.py           # Input validation utilities
+
+Unit Tests (10 total):
+1. test_claim_dataset_initialization() - Validates ClaimDataset structure and initialization
+2. test_claim_loading_from_file() - Tests claim loading from JSON/CSV formats
+3. test_domain_distribution_validation() - Ensures 75 claims per domain distribution
+4. test_claim_complexity_scoring() - Validates complexity scoring algorithm
+5. test_data_storage_persistence() - Tests database save/retrieve operations
+6. test_config_manager_validation() - Validates configuration parameter requirements
+7. test_domain_classifier_accuracy() - Tests domain categorization accuracy
+8. test_claim_preprocessing_normalization() - Tests text preprocessing pipeline
+9. test_database_schema_integrity() - Validates database schema and constraints
+10. test_error_handling_malformed_data() - Tests graceful error handling
+
+==========================================================================================
+
+MODULE 2: CITATION AND RESEARCH MODULE
+======================================
+Priority: 2nd (Core Functionality) | Dependencies: Module 1
+
+Technical Components:
+- WebSearchAPI: Multi-provider integration (Google, Bing, DuckDuckGo) with fallback system
+- CitationFormatter: APA-style citation standardization with URL validation
+- EvidenceExtractor: Relevance scoring and ranking of search results
+- SpanMarker: Text span identification requiring citation support
+
+Architecture Structure:
+src/research/web_search_api.py     # WebSearchAPI with multi-provider support
+src/research/citation_formatter.py # CitationFormatter for APA standardization
+src/research/evidence_extractor.py # EvidenceExtractor with relevance scoring
+src/research/span_marker.py        # SpanMarker for citation span identification
+src/schemas/citation_schemas.py    # Pydantic schemas for citation validation
+
+Unit Tests (10 total):
+1. test_web_search_api_integration() - Tests search API connectivity and results
+2. test_citation_format_standardization() - Validates APA-style citation formatting
+3. test_span_marking_accuracy() - Tests text span identification for citations
+4. test_evidence_extraction_relevance() - Validates evidence relevance scoring
+5. test_multi_provider_fallback() - Tests API fallback mechanisms
+6. test_rate_limiting_compliance() - Ensures API rate limit compliance
+7. test_citation_span_alignment() - Tests citation-to-span alignment accuracy
+8. test_evidence_quality_scoring() - Validates evidence quality metrics
+9. test_search_result_deduplication() - Tests duplicate result filtering
+10. test_citation_url_validation() - Validates citation URL accessibility
+
+==========================================================================================
+
+MODULE 3: MULTI-AGENT ARCHITECTURE MODULE
+=========================================
+Priority: 3rd (Core Logic) | Dependencies: Modules 1, 2
+
+Technical Components:
+- AnsweringAgent: Independent research agent with web search capabilities (2 instances)
+- ChallengerAgent: Specialized adversarial review agent for identifying unsupported claims
+- AgentManager: Coordination system for agent interactions and communication
+- ResponseProcessor: Standardization of agent outputs and confidence scoring
+
+Architecture Structure:
+src/agents/answering_agent.py    # AnsweringAgent implementation
+src/agents/challenger_agent.py   # ChallengerAgent with adversarial prompting
+src/agents/agent_manager.py      # AgentManager coordination system
+src/agents/response_processor.py # ResponseProcessor for output standardization
+src/prompts/answering_prompts.py # Specialized prompts for answering agents
+src/prompts/challenger_prompts.py # Adversarial prompts for challenger agent
+
+Unit Tests (10 total):
+1. test_answering_agent_independence() - Validates independent agent responses
+2. test_challenger_agent_initialization() - Tests challenger agent setup
+3. test_agent_communication_protocol() - Validates standardized messaging
+4. test_confidence_score_generation() - Tests confidence score accuracy (0-1 range)
+5. test_response_standardization() - Validates output format consistency
+6. test_token_budget_management() - Tests token budget compliance
+7. test_agent_manager_coordination() - Validates multi-agent coordination
+8. test_prompt_template_validation() - Tests prompt completeness and structure
+9. test_agent_error_recovery() - Tests error handling and recovery
+10. test_parallel_processing_capability() - Validates concurrent agent processing
+
+==========================================================================================
+
+MODULE 4: CHALLENGE AND REVISION MODULE
+=======================================
+Priority: 4th (Workflow Logic) | Dependencies: Modules 1, 2, 3
+
+Technical Components:
+- ChallengeProcessor: Systematic analysis for unsupported claims, weak citations, and conflicts
+- RevisionManager: Single-round revision process with no additional search capability
+- ConflictResolver: Detection and resolution of contradictory evidence
+- FeedbackGenerator: Structured, specific feedback for targeted improvements
+
+Architecture Structure:
+src/challenge/challenge_processor.py  # ChallengeProcessor for systematic analysis
+src/challenge/revision_manager.py     # RevisionManager for single-round revisions
+src/challenge/conflict_resolver.py    # ConflictResolver for contradiction detection
+src/challenge/feedback_generator.py   # FeedbackGenerator for structured feedback
+
+Unit Tests (10 total):
+1. test_challenge_identification_accuracy() - Tests unsupported claim detection
+2. test_revision_round_limitation() - Ensures single revision round enforcement
+3. test_feedback_specificity() - Validates specific, actionable feedback
+4. test_conflict_detection() - Tests contradictory evidence identification
+5. test_revision_quality_improvement() - Measures revision effectiveness
+6. test_challenge_categorization() - Tests proper challenge classification
+7. test_no_additional_search_enforcement() - Prevents additional searches during revision
+8. test_structured_feedback_format() - Validates feedback format consistency
+9. test_revision_completeness_validation() - Ensures all challenges are addressed
+10. test_challenge_priority_ranking() - Tests challenge severity ranking
+
+==========================================================================================
+
+MODULE 5: EVALUATION AND METRICS MODULE
+=======================================
+Priority: 5th (Analysis) | Dependencies: All previous modules
+
+Technical Components:
+- MetricsCalculator: Hallucination rate, citation precision/recall computation
+- BaselineComparator: Statistical comparison with single-agent baseline using identical token budget
+- AccuracyEvaluator: Ground truth validation for claim accuracy measurement
+- LoggingSystem: Comprehensive interaction logging and reasoning trace analysis
+
+Architecture Structure:
+src/evaluation/metrics_calculator.py   # MetricsCalculator for key performance metrics
+src/evaluation/baseline_comparator.py  # BaselineComparator for statistical analysis
+src/evaluation/accuracy_evaluator.py   # AccuracyEvaluator for ground truth validation
+src/evaluation/logging_system.py       # LoggingSystem for comprehensive tracking
+src/logs/experiment_logs/               # Directory structure for experiment data
+
+Unit Tests (10 total):
+1. test_hallucination_rate_calculation() - Validates hallucination rate accuracy
+2. test_citation_precision_measurement() - Tests citation precision formula
+3. test_citation_recall_measurement() - Tests citation recall formula
+4. test_baseline_comparison_accuracy() - Validates statistical comparison methods
+5. test_claim_accuracy_evaluation() - Tests ground truth accuracy measurement
+6. test_statistical_significance_testing() - Validates significance test implementation
+7. test_comprehensive_logging() - Ensures complete interaction logging
+8. test_experiment_reproducibility() - Tests reproducibility from logged data
+9. test_metrics_aggregation() - Validates metrics aggregation across 300 claims
+10. test_evaluation_report_generation() - Tests comprehensive report generation
+
+==========================================================================================
+
+IMPLEMENTATION EXECUTION ORDER
+==============================
+
+1. Module 1 → Module 2 → Module 3 → Module 4 → Module 5
+2. Each module must pass all 10 unit tests before proceeding to next module
+3. Integration testing after Modules 3 and 4 completion
+4. End-to-end system testing after Module 5 completion
+5. Performance optimization and final evaluation
+
+==========================================================================================
+
+SUCCESS CRITERIA
+================
+
+Quantitative Targets:
+- Hallucination rate reduction: >20% compared to single-agent baseline
+- Citation precision: >85% relevant citations
+- Citation recall: >90% of claims requiring citations are cited
+- System processes all 300 claims within token budget constraints
+
+Qualitative Targets:
+- Structured adversarial feedback improves citation quality
+- Revision process addresses challenger-identified issues
+- Comprehensive logging enables full experiment reproduction
+- System demonstrates statistical significance in improvements
+
+==========================================================================================
+
+TOTAL PROJECT SCOPE
+===================
+
+Total Components Designed: 20 core technical components across 5 modules
+Total Unit Tests Created: 50 comprehensive test cases (10 per module)
+Total Architecture Files: 15+ source code files with proper organization
+Implementation Timeline: Sequential 5-phase deployment with testing gates
+
+The implementation plan provides a complete roadmap for building the Cite-and-Challenge Peer Protocol system with robust testing, comprehensive evaluation metrics, and scalable architecture design.

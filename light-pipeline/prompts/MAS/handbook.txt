@@ -1,0 +1,45 @@
+<domain_handbook>
+
+DOMAIN: Multi-LLM Agent Systems
+
+EXECUTION PHASES
+1. DATA PHASE: data.py → data_out.json
+2. METHOD PHASE: data_out.json → method.py → method_out.json  
+3. EVALUATION PHASE: method_out.json → eval.py → eval_out.json
+
+-----------------------------------------------------------------
+MULTI-LLM AGENT SYSTEMS DATASETS
+- We only want text-based datasets (no images, audio, video, pdf etc.), the text can include anything (text, numbers, tabular, etc.) 
+- Your datasets must be one of the following types:
+    - Math: Problem statement -> single numeric answer -> exact match eval
+        - In some datasets it's always present at the end of the solution and must be extracted
+        - Example: https://huggingface.co/datasets/openai/gsm8k
+    - Coding: Problem statement -> code solution -> unit test eval
+        - Example: https://huggingface.co/datasets/openai/openai_humaneval
+    - Fact-based: Question -> 1-2 word answer -> exact match eval or text generation metrics eval
+        - Example: https://huggingface.co/datasets/hotpotqa/hotpot_qa
+    - Multiple choice: Question -> multiple choice answer -> exact match eval
+        - Example: https://huggingface.co/datasets/Idavidrein/gpqa
+    - Free-text: Question -> free-text answer -> text generation metrics eval
+-----------------------------------------------------------------
+MULTI-LLM AGENT SYSTEMS METHODS
+- You must use Mirascope for creating your multiagent system.
+- DO NOT FORGET TO IMPLEMENT THE BASELINE (comparison) METHOD. This method is typically a single LLM call or a typical multiagent system without any of our proposed method's features.
+- Avoid 'cheating' when comparing creating your method relative to a baseline: do not give only your method few shot examples or answers, and not to the baseline. This is cheating as your method has access to more information, and is not necessarily better.
+- DO NOT LEAVE YOUR WORK 'HALF-FINISHED', IT MUST FULLY MATCH THE ORIGINAL immediately.
+- Multiagent systems are very chaotic, a small change in initial prompt or temperature can drastically change the results. Make sure to vary these so each variation can be evaluated separately later.
+- Use best practices in prompt engineering, look up how to do prompt engineering for each AI model you use with WebSearch then WebFetch.
+- When creating your multiagent systems, try to draw paralells to how humans organize themselves to solve similar tasks or hard problems in general.
+-----------------------------------------------------------------
+MULTI-LLM AGENT SYSTEMS EVALUATION
+- You must use 'evaluate' from Hugingface for all your evaluations.
+- The evaluation metrics you use the better. Don't stop at just 2.
+- It's very important to consider if there are multiple correct answers to each example. If an evaluation metric evaluates most of the correct answers as incorrect it's not a good metric. Example: Question: 'Where is the Eiffel Tower?', Answer: "The Eiffel Tower is in Paris" is wrong but "Paris" is right.
+- Be very careful when evaluating free-text answers as they can be very subjective.
+- Your evaluations must be one of the following types:
+    - Exact match: Use only when the answer is clear, unambiguous and there is only one correct answer. (e.g. multiple choice, math problems, fact-based)
+    - Unit test: Always use to evaluate code solutions. (e.g. bug fixing, coding)
+    - Text generation metrics: Use when you have free-text answers, but ONLY when the answer is objective and short (e.g. short free-text, fact-based)
+-----------------------------------------------------------------
+
+</domain_handbook>

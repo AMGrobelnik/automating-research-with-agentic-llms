@@ -1,0 +1,106 @@
+{
+  "experiment_summary": {
+    "total_claims_processed": 5,
+    "total_challenges_generated": 5,
+    "total_revisions_attempted": 0,
+    "experiment_duration": "21:44:56"
+  },
+  "key_metrics": {
+    "overall_accuracy": 0.2755429666666667,
+    "citation_quality": 1.0,
+    "evidence_strength": 0.8016389333333335,
+    "processing_efficiency": 1.6059999999999999,
+    "challenge_effectiveness": 0.0,
+    "revision_success_rate": 0.0
+  },
+  "improvement_analysis": {
+    "vs_random_baseline": {
+      "accuracy_improvement": -63.93434883673338,
+      "quality_improvement": -8.06929422222223,
+      "statistically_significant": true
+    },
+    "significant_improvements": [],
+    "areas_for_improvement": [
+      "Accuracy improvement potential - consider better search strategies",
+      "Quality enhancement opportunities - strengthen evidence evaluation",
+      "Processing efficiency - optimize multi-agent coordination overhead"
+    ]
+  },
+  "system_insights": [
+    "System achieved 27.6% overall accuracy",
+    "Citation quality scored 100.0%",
+    "Evidence strength averaged 80.2%",
+    "Challenge detection F1 score: 0.000",
+    "Revision success rate: 0.0%"
+  ],
+  "detailed_results": {
+    "system_performance": {
+      "overall_accuracy": 0.2755429666666667,
+      "citation_accuracy": 1.0,
+      "evidence_accuracy": 1.0,
+      "confidence_calibration_score": 0.9642426666666668,
+      "challenge_precision": 0.0,
+      "challenge_recall": 0.0,
+      "challenge_f1": 0.0,
+      "false_positive_rate": 0.0,
+      "avg_response_quality": 0.6894802933333333,
+      "avg_citation_quality": 1.0,
+      "avg_evidence_strength": 0.8016389333333335,
+      "avg_processing_time": 1.6059999999999999,
+      "token_efficiency": 0.007451564828614009,
+      "throughput_per_minute": 37.359900373599004,
+      "revision_success_rate": 0.0,
+      "avg_improvement_score": 0.0,
+      "issue_resolution_rate": 0.0,
+      "total_evaluations": 5,
+      "evaluation_period": "5 responses",
+      "timestamp": "2025-08-10T21:44:56.980285"
+    },
+    "comparison_analysis_summary": {
+      "overall_improvement": "-0.488",
+      "accuracy": {
+        "system": "0.276",
+        "baseline": "0.764",
+        "improvement": "-63.9%",
+        "significant": true
+      },
+      "quality": {
+        "system": "0.689",
+        "baseline": "0.750",
+        "improvement": "-8.1%",
+        "significant": false
+      },
+      "significant_improvements": [],
+      "improvement_areas": [
+        "Accuracy improvement potential - consider better search strategies",
+        "Quality enhancement opportunities - strengthen evidence evaluation",
+        "Processing efficiency - optimize multi-agent coordination overhead"
+      ],
+      "baselines_tested": [
+        "BaselineType.RANDOM_BASELINE",
+        "BaselineType.SIMPLE_SEARCH",
+        "BaselineType.NO_CHALLENGE"
+      ],
+      "sample_size": 5,
+      "timestamp": "2025-08-10T21:44:56.981644"
+    },
+    "accuracy_evaluation": {
+      "overall_accuracy": 1.0,
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "accuracy_by_category": {
+        "response_accuracy": 1.0
+      },
+      "error_distribution": {},
+      "confidence_calibration": 1.0,
+      "total_items": 5,
+      "correct_items": 5,
+      "evaluated_categories": [
+        "response_accuracy"
+      ],
+      "evaluation_timestamp": "2025-08-10T21:44:56.983827",
+      "ground_truth_source": "provided"
+    }
+  }
+}

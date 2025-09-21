@@ -1,0 +1,35 @@
+HIGH LEVEL WORKFLOW: CITE-AND-CHALLENGE PEER PROTOCOL FOR FACTUAL CLAIMS
+
+CONCEPTUAL DESCRIPTION:
+The Cite-and-Challenge Peer Protocol implements a structured adversarial review process for AI-generated factual claims. Multiple answering agents independently research and cite claims, then a specialized challenger agent identifies unsupported or weakly supported content. Answerers receive one revision opportunity to address challenges, resulting in higher-quality, better-cited factual outputs.
+
+STEP-BY-STEP WORKFLOW:
+
+Step 1: Claim Dataset Preparation
+- Curate 300 factual claims requiring verification across diverse domains (science, health, history, finance)
+- Each claim should be complex enough to require multiple sources and have potential for factual errors
+
+Step 2: Multi-Agent Architecture Setup
+- Deploy two independent answering agents with access to web search API
+- Deploy one challenger agent specialized in identifying unsupported claims
+- Establish standardized citation format and span-marking protocols
+
+Step 3: Initial Claim Processing
+- Answering agents independently research each claim using web search
+- Each agent provides: cited claim with source spans, confidence scores, supporting evidence links
+- Agents must mark specific text spans that require citation support
+
+Step 4: Adversarial Challenge Phase
+- Challenger agent analyzes both answers and identifies: unsupported claims, weak citations, conflicting evidence, missing sources
+- Challenger provides specific feedback on which spans lack adequate support
+- Challenger flags potential hallucinations with reasoning
+
+Step 5: Revision Round
+- Answering agents receive challenger feedback and have one revision opportunity
+- Agents can: add new citations, remove unsupported claims, strengthen weak evidence, address conflicts
+- No additional web searches allowed during revision
+
+Step 6: Evaluation and Metrics
+- Compare final outputs against single-agent baseline using same token budget
+- Measure: hallucination rate reduction, citation precision/recall, claim accuracy
+- Generate comprehensive logs of all interactions and reasoning traces

@@ -1,0 +1,42 @@
+[project]
+name = "ai-scientist-lite"
+version = "0.1.0"
+description = "AI Scientist Lite - Idea Generation Pipeline using Claude SDK"
+authors = [
+    {name = "Adrian", email = "adrian@example.com"}
+]
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "claude-code-sdk>=0.0.14",
+    "pyyaml>=6.0",
+    "loguru>=0.7.0",
+    "openai>=1.0.0",
+    "tenacity>=8.0.0",
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["modules*"]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "black",
+    "isort",
+]
+
+[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+ai-scientist = "orchestrator:main"
+
+[tool.black]
+line-length = 88
+target-version = ['py310']
+
+[tool.isort]
+profile = "black"
+line_length = 88
